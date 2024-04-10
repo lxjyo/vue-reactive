@@ -183,3 +183,41 @@ export function watch(source, cb, options = {}) {
     oldValue = effectFn();
   }
 }
+
+// 原始值响应式
+export function ref(val) {
+  const wrapper = {
+    value: val,
+  };
+  Object.defineProperty(wrapper, '__v_isRef', {
+    value: true,
+  });
+  return reactive(wrapper);
+}
+
+// 解决响应式丢失问题
+export function toRef(obj, key) {
+  const wrapper = {
+    get value() {
+      return obj[key];
+    },
+    set value(val) {
+      obj[key] = val;
+    },
+  };
+  Object.defineProperty(wrapper, '__v_isRef', {
+    value: true,
+  });
+  return wrapper;
+}
+
+export function toRefs(obj) {
+  const ret = {};
+  for (const key in obj) {
+    ret[key] = toRef(obj, key);
+  }
+  Object.defineProperty(wrapper, '__v_isRef', {
+    value: true,
+  });
+  return ret;
+}

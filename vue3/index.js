@@ -1,4 +1,4 @@
-import { reactive, effect, computed, watch } from './reactive.js';
+import { reactive, effect, computed, watch, ref } from './reactive.js';
 import flushingQueue from './flushingQueue.js';
 
 const proxy = reactive({
@@ -63,14 +63,23 @@ const proxy = reactive({
 // });
 
 // // 监听器
-watch(
-  proxy,
-  () => {
-    console.log('changed');
-  },
-  {
-    immediate: true,
-  }
-);
+// watch(
+//   proxy,
+//   () => {
+//     console.log('changed');
+//   },
+//   {
+//     immediate: true,
+//   }
+// );
 
-proxy.count = 3;
+// proxy.count = 3;
+
+
+const count = ref(1);
+
+effect(() => {
+  console.log(count.value)
+})
+
+count.value++;
